@@ -1,14 +1,16 @@
-const multer = require("multer");
-const repo = require("../repo/file");
-const queueRepo = require("../repo/queue");
-const fileSystem = require("fs");
-const path = require("path");
-const permit = require("../handle/middlewere/permit");
-const errExep = require("../errExep");
+import multer from "multer";
+import fileRepo from "../repo/file.js"
+import queueRepo from "../repo/queue.js"
+import fileSystem from "../fs/file.system.js";
+import errExep from "../errExep.js";
+
+
+const file_path = "files/"
+
 // กำหนดตำแหน่งและชื่อไฟล์ตอนบันทึก
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "files/");
+    cb(null, file_path);
   },
   filename: (req, file, cb) => {
     const unique = Date.now() + "-" + Math.round(Math.random() * 1e9);
@@ -17,11 +19,11 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage });
+const uploading = multer({ storage });
 
-exports.single = (part) => { return upload.single(part); }
+const single = (part) => { return uploading.single(part); }
 
-exports.upload = async (auth_id,queue_id, originalname, filename, mimetype, size) => {
+const upload = async (auth_id,queue_id, originalname, filename, mimetype, size) => {
   const queue = await queueRepo.get_by_id(queue_id);
   if (queue.length === 0) {
     throw new Error(errExep.QUEUE_NOT_FOUND);
@@ -29,39 +31,44 @@ exports.upload = async (auth_id,queue_id, originalname, filename, mimetype, size
   if (queue[0].auth_id !== auth_id && auth_id !== 0) {
     throw new Error(errExep.NO_PERMISSION_UPLOAD_FILE);
   }
-  const file_id = await repo.create(queue_id, originalname, filename, mimetype, size);
-  return { file_id, file_url: "/file/" + filename };
+  const file_id = await fileRepo.create(queue_id, originalname, filename, mimetype, size);
+  return { file_id, file_url: file_path + filename };
 }
 
-exports.listing = async (queue_id) => {
-  return await repo.listing(queue_id);
+const listing = async (queue_id) => {
+  return await fileRepo.listing(queue_id);
 }
-exports.delete_by_id = async (auth_id,file_id) => {
-  const queue = await queueRepo.get_by_id(queue_id);
+const delete_by_id = async (auth_id,file_id) => {
+    const file = await fileRepo.get_by_id(file_id);
+  if (file.length === 0) {
+    throw new Error(errExep.FILE_NOT_FOUND);
+  }
+  const queue = await queueRepo.get_by_id(file[0].queue_id);
   if (queue.length === 0) {
     throw new Error(errExep.QUEUE_NOT_FOUND);
   }
   if (queue[0].auth_id !== auth_id && auth_id !== 0) {
     throw new Error(errExep.NO_PERMISSION_DELETE_FILE);
   }
-  const file = await repo.get_by_id(file_id);
-  if (file.length === 0) {
-    throw new Error(errExep.FILE_NOT_FOUND);
-  }
-  await repo.delete_by_id(file_id);
-  const path = "files/" + file[0].file_name;
-  fileSystem.unlink(path, (err) => {
-    if (err) {
-      throw new Error(errExep.FILE_DELETE_FAIL);
-    }
-  });
-  console.log(path);
+
+  await fileRepo.delete_by_id(file_id);
+  const path = file_path + file[0].file_name;
+  fileSystem.unlink(path);
+ // console.log(path);
 }
 
-exports.get_by_id = async (file_id) => {
-  const result = await repo.get_by_id(file_id);
+const get_by_id = async (file_id) => {
+  const result = await fileRepo.get_by_id(file_id);
   if (result.length === 0) {
     throw new Error(errExep.FILE_NOT_FOUND);
   }
-  return {path: "files/" + result[0].file_name, original_name: result[0].original_name, mime_type: result[0].mime_type};
+  return {path: file_path + result[0].file_name, original_name: result[0].original_name, mime_type: result[0].mime_type};
 }
+
+export default  {
+  single,
+  upload,
+  listing,
+  delete_by_id,
+  get_by_id
+};

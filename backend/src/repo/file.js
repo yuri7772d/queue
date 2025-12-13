@@ -1,6 +1,6 @@
-const db = require('./connector')
+import db from "./connector.js";
 
-exports.create = async (queue_id,originalname, filename, mimetype,size) => {
+const create = async (queue_id,originalname, filename, mimetype,size) => {
     console.log(queue_id,originalname, filename, mimetype,size);
     
     const result = await db.execute(
@@ -10,14 +10,20 @@ exports.create = async (queue_id,originalname, filename, mimetype,size) => {
     return result[0].insertId;
 }
 
-exports.listing = async (queue_id) => {
+const listing = async (queue_id) => {
     const [row] = await db.execute('SELECT * FROM file WHERE queue_id = ?;', [queue_id])
     return row
 }
-exports.delete_by_id = async (file_id) => {
+const delete_by_id = async (file_id) => {
     const result = await db.execute('DELETE FROM file WHERE id = ? ;', [file_id])
 }
-exports.get_by_id = async (file_id) => {
+const get_by_id = async (file_id) => {
     const [row] = await db.execute('SELECT * FROM file WHERE id = ? ;', [file_id])
     return row
 }
+export default  {
+    create,
+    listing,
+    delete_by_id,
+    get_by_id
+};

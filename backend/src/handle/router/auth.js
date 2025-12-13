@@ -1,11 +1,11 @@
-const express = require('express');
+import express from "express"
 const router = express.Router();
-const authUsecase = require('./../../usecase/auth');
-const { body,query } = require('express-validator');
-const errValidator = require('../middlewere/err.validator');
-const permit = require('../middlewere/permit');
+import authUsecase from "../../usecase/auth.js";
+import { body,query } from "express-validator";
+import errValidator from "../middlewere/err.validator.js";
+import permit from "../middlewere/permit.js";
 
-authUsecase.create_root();
+
 
 router.post('/',
     [
@@ -142,4 +142,4 @@ router.patch('/',
     }
 );
 
-module.exports = router;
+export default  router;

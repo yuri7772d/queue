@@ -1,6 +1,7 @@
-const mysql = require('mysql2/promise')
-const {mysql:mysqlConf} =require('../config.load')
-const db =mysql.createPool({
+import mysql from "mysql2/promise"
+import configEnv from "../config.load.js";
+const mysqlConf = configEnv.mysql;
+export default mysql.createPool({
     host:mysqlConf.host,
     user:mysqlConf.usernsme,
     password:mysqlConf.password,
@@ -8,4 +9,3 @@ const db =mysql.createPool({
     port:mysqlConf.port,
 });
 
-module.exports = db ;

@@ -1,10 +1,10 @@
-const express = require("express");
+import express from "express"
 const router = express.Router();
-const queueUsecase = require("./../../usecase/queue");
-const { body, query } = require("express-validator");
-const errValidator = require("../middlewere/err.validator");
-const permit = require("../middlewere/permit");
-const timeValidator = require("../middlewere/time.validator");
+import queueUsecase from "../../repo/queue.js";
+import { body,query } from "express-validator";
+import errValidator from "../middlewere/err.validator.js";
+import permit from "../middlewere/permit.js";
+import timeValidator from "../middlewere/time.validator.js";
 router.post(
   "/booking",
   [
@@ -145,4 +145,4 @@ router.patch(
     }
 )
 
-module.exports = router;
+export default router;

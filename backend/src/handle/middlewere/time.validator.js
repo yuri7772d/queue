@@ -1,4 +1,4 @@
-module.exports = (req, res, next) => {
+export default (req, res, next) => {
   const bodyDate = req.body?.date;
   const queryDate = req.query?.date;
   if (queryDate) {

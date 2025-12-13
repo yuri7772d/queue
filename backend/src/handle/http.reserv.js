@@ -1,14 +1,19 @@
-const express = require("express");
-const app = express();
-const { server } = require("./../config.load");
-const authRouter = require("./router/auth");
-const queueRouter = require("./router/queue");
-const roomRouter = require("./router/room");
-const fileRouter = require("./router/file");
-const cookieParser = require("cookie-parser");
-const cors = require('cors');
+import express from "express";
+import configEnv from "../config.load.js";
 
-exports.start = () => {
+const app = express();
+const server = configEnv.server
+
+import roomRouter from "./router/room.js";
+
+import authRouter from "./router/auth.js";
+import fileRouter from "./router/file.js";
+import queueRouter from "./router/queue.js"
+import cookieParser from "cookie-parser";
+import cors from "cors"
+
+
+export default  () => {
   app.use(express.json());
   app.use(cookieParser());
 

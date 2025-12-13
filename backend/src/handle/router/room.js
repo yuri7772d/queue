@@ -1,9 +1,9 @@
-const express = require("express");
+import express from "express"
 const router = express.Router();
-const roomUsecase = require("./../../usecase/room");
-const { body, query } = require("express-validator");
-const errValidator = require("../middlewere/err.validator");
-const permit = require("../middlewere/permit");
+import roomUsecase from "../../usecase/room.js";
+import { body,query } from "express-validator";
+import errValidator from "../middlewere/err.validator.js";
+import permit from "../middlewere/permit.js";
 
 router.post(
   "/create",
@@ -74,4 +74,4 @@ router.delete(
   }
 );
 
-module.exports = router;
+export default  router;

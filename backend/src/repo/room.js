@@ -1,6 +1,6 @@
-const db = require("./connector");
+import db from "./connector.js";
 
-exports.create = async (name) => {
+const create = async (name) => {
   const result = await db.execute(
     "INSERT INTO room (name) VALUES (?) ;",
     [name]
@@ -8,7 +8,7 @@ exports.create = async (name) => {
   return result[0].insertId;
 };
 
-exports.listing = async (page,per_page) => {
+const listing = async (page,per_page) => {
     console.log(page,per_page);
     
   const limit = per_page ;
@@ -21,15 +21,22 @@ exports.listing = async (page,per_page) => {
 };
 
 
-exports.edit = async (room_id, name) => {
+const edit = async (room_id, name) => {
   await db.execute("UPDATE room SET name = ? WHERE id = ? ;", [
     name,
     room_id,
   ]);
 };
 
-exports.delete = async (room_id) => {
+const remove = async (room_id) => {
   await db.execute("DELETE FROM room WHERE id = ?;", [
     room_id,
   ]);
+};
+
+export default {
+  create,
+  listing,
+  edit,
+  remove
 };

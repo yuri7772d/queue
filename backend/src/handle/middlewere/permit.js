@@ -1,8 +1,8 @@
-const jwt = require("jsonwebtoken");
-const errExep = require("../../errExep");
-const { jwt:jwtConf } = require("../../config.load");
-
-module.exports = (roles) => {
+import jwtHas from "../../jwt/jwt.has.js"
+import errExep from "../../errExep.js";
+import configEnv from "../../config.load.js";
+const {jwt:jwtConf} = configEnv
+export default  (roles) => {
    return  (req, res, next) => {
   const toket = req.cookies?.token ;
   if (!toket) {
@@ -10,9 +10,9 @@ module.exports = (roles) => {
   }
     let decode;
     try {
-        decode = jwt.verify(toket,jwtConf.secret)
+        decode = jwtHas.verify(toket,jwtConf.secret)
     } catch (error) {
-        console.log(error);
+       // console.log(error);
        return res.status(401).json({ msg: errExep.TOKEN_INVALID});
     }
 let isUse = false ;

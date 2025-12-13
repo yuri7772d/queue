@@ -1,18 +1,19 @@
-const repo = require("../repo/queue");
-const errExep = require("../errExep");
-exports.booking = async (title,detail, auth_id, room_id, date) => {
-  console.log(title,detail, auth_id, room_id, date);
+import errExep from "../errExep.js";
+import queueRepo from "../repo/queue.js";
+
+const booking = async (title,detail, auth_id, room_id, date) => {
+ // console.log(title,detail, auth_id, room_id, date);
   
-  const id = await repo.create(title,detail, auth_id, room_id, 0, date);
+  const id = await queueRepo.create(title,detail, auth_id, room_id, 0, date);
   return { id: id, title,detail, room: room_id, date };
 };
 
-exports.listing = async (role, room, year, month) => {
+const listing = async (role, room, year, month) => {
   let queues;
   if (role == 0 || role == 1) {
-    queues = await repo.listing(year, month, room, [0, 1]);
+    queues = await queueRepo.listing(year, month, room, [0, 1]);
   } else {
-    queues = await repo.listing(year, month, room, [1]);
+    queues = await queueRepo.listing(year, month, room, [1]);
   }
   //  console.log(queues)
   if (queues.length == 0 || !queues) {
@@ -49,18 +50,18 @@ exports.listing = async (role, room, year, month) => {
   return { result, room };
 };
 
-exports.get_by_date = async (role, room, date) => {
+const get_by_date = async (role, room, date) => {
   let queues;
   if (role == 0 || role == 1) {
-    queues = await repo.get_by_date(date, room, [0, 1]);
+    queues = await queueRepo.get_by_date(date, room, [0, 1]);
   } else {
-    queues = await repo.get_by_date(date, room, [1]);
+    queues = await queueRepo.get_by_date(date, room, [1]);
   }
   return queues;
 };
 
-exports.approve = async (queue_id, date, room) => {
-  const on_date = await repo.get_by_date(date, room, [0, 1]);
+const approve = async (queue_id, date, room) => {
+  const on_date = await queueRepo.get_by_date(date, room, [0, 1]);
   if (on_date.length == 0 || !on_date) {
     throw new Error(errExep.APPROVE_FAIL);
   }
@@ -73,15 +74,15 @@ exports.approve = async (queue_id, date, room) => {
   if (!is_have) throw new Error(errExep.APPROVE_FAIL);
   for (const queue of on_date) {
     if (queue.id == queue_id) {
-      await repo.update_status(queue.id, 1);
+      await queueRepo.update_status(queue.id, 1);
     } else {
-      await repo.update_status(queue.id, 2);
+      await queueRepo.update_status(queue.id, 2);
     }
   }
 };
 
-exports.cancal = async (queue_id, date, room) => {
-  const on_date = await repo.get_by_date(date, room, [1, 2]);
+const cancal = async (queue_id, date, room) => {
+  const on_date = await queueRepo.get_by_date(date, room, [1, 2]);
   if (on_date.length == 0 || !on_date) {
      throw new Error(errExep.CANCAL_FAIL);
   }
@@ -93,17 +94,26 @@ exports.cancal = async (queue_id, date, room) => {
   }
   if (!is_have) throw new Error(errExep.CANCAL_FAIL);
   for (const queue of on_date) {
-      await repo.update_status(queue.id, 0);
+      await queueRepo.update_status(queue.id, 0);
   }
 };
 
-exports.edit = async (auth_id,queue_id, title, detail) => {
-  const queue = await repo.get_by_id(queue_id);
+const edit = async (auth_id,queue_id, title, detail) => {
+  const queue = await queueRepo.get_by_id(queue_id);
   if (queue.length == 0 || !queue) {
     throw new Error(errExep.QUEUE_NOT_FOUND);
   }
   if (queue[0].auth_id != auth_id) {
     throw new Error(errExep.NO_PERMISSION_UPDATE_QUEUE);
   }
-  await repo.update_title_detail(queue_id, title, detail);
+  await queueRepo.update_title_detail(queue_id, title, detail);
 }
+
+export default  {
+  booking,
+  listing,
+  get_by_date,
+  approve,
+  cancal,
+  edit
+};

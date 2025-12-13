@@ -1,6 +1,6 @@
-const db = require("./connector");
+import db from "./connector.js";
 
-exports.create = async (title,detail, auth_id, room, status, date) => {
+const create = async (title,detail, auth_id, room, status, date) => {
   console.log(title,detail, auth_id, room, status, date);
   
   const result = await db.execute(
@@ -10,7 +10,7 @@ exports.create = async (title,detail, auth_id, room, status, date) => {
   return result[0].insertId;
 };
 
-exports.listing = async (year, month,room, statuss) => {
+const listing = async (year, month,room, statuss) => {
   const [row] = await db.execute(
     `SELECT 
     status,
@@ -26,7 +26,7 @@ exports.listing = async (year, month,room, statuss) => {
   return row;
 };
 
-exports.get_by_date = async (date, room, statuss) => {
+const get_by_date = async (date, room, statuss) => {
   const [row] = await db.execute(
     `SELECT queue.id,
         auth.username,
@@ -42,22 +42,31 @@ exports.get_by_date = async (date, room, statuss) => {
   return row;
 };
 
-exports.update_status = async (queue_id, status) => {
+const update_status = async (queue_id, status) => {
   await db.execute("UPDATE queue SET status = ? WHERE id = ? ;", [
     status,
     queue_id,
   ]);
 };
 
-exports.update_title_detail = async (queue_id, title, detail) => {
+const update_title_detail = async (queue_id, title, detail) => {
   await db.execute("UPDATE queue SET title = ?, detail = ? WHERE id = ? ;", [
    title,detail, queue_id
   ]);
 };
 
-exports.get_by_id = async (queue_id) => {
+const get_by_id = async (queue_id) => {
   const [row] = await db.execute("SELECT * FROM queue WHERE id = ? ;", [
     queue_id,
   ]);
   return row;
 }
+
+export default  {
+  create,
+  listing,
+  get_by_date,
+  update_status,
+  update_title_detail,
+  get_by_id
+};
