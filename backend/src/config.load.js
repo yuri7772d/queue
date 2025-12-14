@@ -11,18 +11,16 @@ dotenv.config()
 
 
 function getServerEnv() {
-    const portEnv = process.env?.PORT;
-    if (!portEnv) {
-        throw new Error("PORT invalid!");
+    const port = process.env?.PORT || 80;
+  
 
+    let allow_origins = process.env?.ALLOW_ORIGINS;
+    if (!allow_origins) {
+        throw new Error("ALLOW_ORIGINS invalid!");
     }
-
-    const port = Number(portEnv);
-    if (!port) {
-        throw new Error("PORT invalid!");
-
-    }
-    return { port }
+     allow_origins = allow_origins.split(',').map(origin => origin.trim());
+     console.log(allow_origins)
+    return { port, allow_origins: allow_origins}
 }
 function getMysqlEnv() {
     const portEnv = process.env?.MYSQL_PORT || 80;

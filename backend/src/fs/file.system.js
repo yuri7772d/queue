@@ -1,5 +1,5 @@
 import fs from "fs"
-import errExep from "../errExep";
+import errExep from "../errExep.js";
 const unlink = (path) => {
       fs.unlink(path, (err) => {
         if (err) {

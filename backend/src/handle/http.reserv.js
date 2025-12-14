@@ -19,7 +19,7 @@ export default  () => {
 
   app.use(
     cors({
-      origin: "http://localhost:3000",
+      origin: server.allow_origins,
       credentials: true,
     })
   );

@@ -42,3 +42,6 @@ MYSQL_PASSWORD=1234
  npm run test
 ```
 ---
+
+docker-compose --profile backend up --build -d
+

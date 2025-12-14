@@ -14,10 +14,12 @@ services:
       - mysql_data:/var/lib/mysql             # เก็บข้อมูลไว้ถาวรในโฟลเดอร์ host
       - ./backend/init_db:/docker-entrypoint-initdb.d   # ⭐ auto run SQL ที่นี่
     command: []   # ไม่ต้องใส่อะไร ปล่อย default
-
+    networks:
+      - q_net
 
 
   phpmyadmin:
+  
     image: phpmyadmin:latest
     container_name: phpmyadmin2
     ports:
@@ -29,13 +31,18 @@ services:
       UPLOAD_LIMIT: 64M
     depends_on:
       - mysql   
-  myservice:
-    image: registry-ui.vecskill.ovec/my-image:latest
+    networks:
+      - q_net
+
+  backend:
+    build: ./backend
+   # image: registry-ui.vecskill.ovec/my-image:latest  # ใช้สำหรับ production
     ports:
-      - "81:80"
+      - "81:80" 
     environment:
-      JWT_SECRET: secret
-      JWT_REFRESH_SECRET: refresh_secret
+      ALLOW_ORIGINS: http://localhost:3000,10.60.160.17:3000
+      JWT_SECRET: secret 
+      JWT_REFRESH_SECRET: refresh_secret 
       ROOT_USERNAME: admin
       ROOT_PASSWORD: 1234
       MYSQL_HOST: mysql
@@ -43,10 +50,18 @@ services:
       MYSQL_DB: roomq
       MYSQL_USERNAME: sql
       MYSQL_PASSWORD: 1234
+    volumes:
+      - ./backend/files:/files
     profiles:
-      - production
-      - backend
+      - backend       # ถ้าเรียก profile backend จะ build
+      - production    # ถ้าเรียก profile production จะใช้ image จาก registry
+    networks:
+      - q_net
 
 
 volumes:
   mysql_data:
+
+networks:
+  q_net:
+    driver: bridge
