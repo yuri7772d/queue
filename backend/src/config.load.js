@@ -17,11 +17,13 @@ function getServerEnv() {
         throw new Error("ALLOW_ORIGINS invalid!");
     }
      allow_origins = allow_origins.split(',').map(origin => origin.trim());
-     console.log(allow_origins)
+    // console.log(allow_origins)
+    
     return { port:port, allow_origins: allow_origins}
+
 }
 function getMysqlEnv() {
-    const portEnv = process.env?.MYSQL_PORT || 80;
+    const portEnv = process.env?.MYSQL_PORT;
     if (!portEnv) {
         throw new Error("MYSQL_PORT invalid!");
 
