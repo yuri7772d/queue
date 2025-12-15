@@ -85,6 +85,7 @@ deploy_to_production:
     # 2) SSH เพื่อ pull + deploy เวอร์ชันใหม่ f
     - ssh root@192.168.100.102 "
         cd /opt &&  
+        docker compose down &&
         docker compose pull &&
         docker compose --profile production up -d --remove-orphans
       "
