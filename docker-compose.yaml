@@ -65,7 +65,7 @@ services:
     ports:
       - "3000:3000" 
     environment:
-      NUXT_PUBLIC_API: http://192.168.100.2:81
+      NUXT_PUBLIC_API: http://192.168.100.102:81
       NODE_OPTIONS: "--max-old-space-size=4096"
       CHOKIDAR_USEPOLLING: "true"
       WATCHPACK_POLLING: "true"
