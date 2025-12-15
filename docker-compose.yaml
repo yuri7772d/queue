@@ -41,7 +41,7 @@ services:
       - "81:80" 
     environment:
       PORT: 80
-      ALLOW_ORIGINS: 192.168.100.102:3000,localhost:3000
+      ALLOW_ORIGINS: 192.168.100.111:3000,localhost:3000
       JWT_SECRET: secret 
       JWT_REFRESH_SECRET: refresh_secret 
       ROOT_USERNAME: admin
@@ -65,7 +65,7 @@ services:
     ports:
       - "3000:3000" 
     environment:
-      NUXT_PUBLIC_API: http://192.168.100.102:81
+      NUXT_PUBLIC_API: http://192.168.100.111:81
       NODE_OPTIONS: "--max-old-space-size=4096"
       CHOKIDAR_USEPOLLING: "true"
       WATCHPACK_POLLING: "true"
