@@ -25,6 +25,7 @@ beforeEach(() => {
 describe("queueUsecase", () => {
 
     it("booking should call repo.create and return queue info", async () => {
+        queueRepo.get_by_date.mockResolvedValue([]);
         queueRepo.create.mockResolvedValue(101);
         const result = await queueUsecase.booking("title", "detail", 1, 2, new Date("2025-12-15"));
         expect(result).toEqual({
