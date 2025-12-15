@@ -41,7 +41,7 @@ services:
       - "81:80" 
     environment:
       PORT: 80
-      ALLOW_ORIGINS: http://localhost:3000,192.168.100.102:3000
+      ALLOW_ORIGINS: 192.168.100.102:3000
       JWT_SECRET: secret 
       JWT_REFRESH_SECRET: refresh_secret 
       ROOT_USERNAME: admin
@@ -61,7 +61,7 @@ services:
 
   frontend:
     build: ./frontend
-    image: registry-ui.vecskill.ovec/my-frontend:latest  # ใช้สำหรับ production
+    image: registry-ui.vecskill.ovec/my-frontend:latest  # ใช้สำหรับ production 0
     ports:
       - "3000:3000" 
     environment:
