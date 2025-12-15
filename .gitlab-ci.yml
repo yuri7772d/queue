@@ -74,14 +74,17 @@ deploy_to_production:
     - chmod 600 ~/.ssh/id_rsa
     - ssh-keyscan 192.168.100.102 >> ~/.ssh/known_hosts
   script:
-
-    # 1) ส่ง docker-compose.yml ไปให้เครื่อง production
-    - scp -r ./docker-compose.yaml root@192.168.100.102:/opt/docker-compose.yaml
-    - scp -r ./init_db root@192.168.100.102:/opt/
-    # 2) SSH เพื่อ pull + deploy เวอร์ชันใหม่ f
     - ssh root@192.168.100.102 "
         cd /opt &&
         mkdir -p backend/files &&
+        mkdir -p backend/init_db 
+      "
+    # 1) ส่ง docker-compose.yml ไปให้เครื่อง production
+    - scp -r ./docker-compose.yaml root@192.168.100.102:/opt/docker-compose.yaml
+    - scp -r ./backend/init_db root@192.168.100.102:/opt/backend
+    # 2) SSH เพื่อ pull + deploy เวอร์ชันใหม่ f
+    - ssh root@192.168.100.102 "
+        cd /opt &&  
         docker compose pull &&
         docker compose --profile production up -d --remove-orphans
       "
