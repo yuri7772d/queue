@@ -35,13 +35,13 @@ build_frontend:
     - docker info
     - cd frontend
     - docker build -t my-frontend .
-    - docker tag my-frontend registry-ui.vecskill.ovec/my-image:latest
+    - docker tag my-frontend registry-ui.vecskill.ovec/my-frontend:latest
     - docker push registry-ui.vecskill.ovec/my-frontend:latest
   only:
     - main
 
 build_backend:
-  stage: build
+  stage: build_backend
   image: docker:24
   services:
     - docker:24-dind   # ต้องการ docker-in-docker
