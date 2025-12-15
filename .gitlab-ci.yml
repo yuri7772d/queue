@@ -15,7 +15,7 @@ test_job:
     - npm install
     - npm test
   tags:
-    - docker
+    - local
   only:
     - main
 
@@ -30,7 +30,7 @@ build_frontend:
   variables:
     DOCKER_TLS_CERTDIR: "" # ปิด TLS
   tags:
-    - docker
+    - local
   script:
     - docker info
     - cd frontend
@@ -48,7 +48,7 @@ build_backend:
   variables:
     DOCKER_TLS_CERTDIR: "" # ปิด TLS
   tags:
-    - docker
+    - local
   script:
     - docker info
     - cd backend
