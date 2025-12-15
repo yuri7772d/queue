@@ -60,7 +60,7 @@ build_backend:
 
 
 # -----------------------------
-# DEPLOY STAGE (SSH to Production)
+# DEPLOY STAGE (SSH to Production){}
 # -----------------------------
 deploy_to_production:
   stage: deploy
