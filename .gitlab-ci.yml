@@ -40,7 +40,7 @@ build_frontend:
   only:
     - main
 
-  build_backend:
+build_backend:
   stage: build
   image: docker:24
   services:
