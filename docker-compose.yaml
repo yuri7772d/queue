@@ -54,7 +54,7 @@ services:
       - ./backend/files:/files
     profiles:
       - backend       # ถ้าเรียก profile backend จะ build
-      - production    # ถ้าเรียก profile production จะใช้ image จาก registry[]
+      - production    # ถ้าเรียก profile production จะใช้ image จาก registry
     networks:
       - q_net
 
