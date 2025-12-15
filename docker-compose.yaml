@@ -41,7 +41,7 @@ services:
       - "81:80" 
     environment:
       PORT: 80
-      ALLOW_ORIGINS: 192.168.100.102:3000
+      ALLOW_ORIGINS: 192.168.100.102:3000,localhost:3000
       JWT_SECRET: secret 
       JWT_REFRESH_SECRET: refresh_secret 
       ROOT_USERNAME: admin
