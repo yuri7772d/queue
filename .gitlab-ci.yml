@@ -54,7 +54,7 @@ build_backend:
     - cd backend
     - docker build --no-cache -t my-backend .
     - docker tag my-backend registry-ui.vecskill.ovec/my-backend:latest
-    - docker push registry-ui.vecskill.ovec/my-backend:1
+    - docker push registry-ui.vecskill.ovec/my-backend:latest
   only:
     - main
 
