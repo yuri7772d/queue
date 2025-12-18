@@ -24,9 +24,9 @@ test_job:
 # -----------------------------
 build_frontend:
   stage: build_frontend
-  image: docker:24
+  image: docker:26
   services:
-    - docker:24-dind   # ต้องการ docker-in-docker
+    - docker:26-dind   # ต้องการ docker-in-docker
   variables:
     DOCKER_TLS_CERTDIR: "" # ปิด TLS
   tags:
@@ -35,16 +35,16 @@ build_frontend:
     - docker info
     - cd frontend
     - docker build --no-cache -t my-frontend .
-    - docker tag my-frontend registry-ui.vecskill.ovec/my-frontend:latest
-    - docker push registry-ui.vecskill.ovec/my-frontend:latest
+    - docker tag my-frontend registry.vecskill.ovec/my-frontend:latest
+    - docker push registry.vecskill.ovec/my-frontend:latest
   only:
     - main
 
 build_backend:
   stage: build_backend
-  image: docker:24
+  image: docker:26
   services:
-    - docker:24-dind   # ต้องการ docker-in-docker
+    - docker:26-dind   # ต้องการ docker-in-docker
   variables:
     DOCKER_TLS_CERTDIR: "" # ปิด TLS
   tags:
@@ -53,8 +53,8 @@ build_backend:
     - docker info
     - cd backend
     - docker build --no-cache -t my-backend .
-    - docker tag my-backend registry-ui.vecskill.ovec/my-backend:latest
-    - docker push registry-ui.vecskill.ovec/my-backend:latest
+    - docker tag my-backend registry.vecskill.ovec/my-backend:latest
+    - docker push registry.vecskill.ovec/my-backend:latest
   only:
     - main
 
