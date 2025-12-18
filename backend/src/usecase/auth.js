@@ -9,9 +9,9 @@ const create_root = async () => {
   try {
     
    const result =  await authRepo.create_by_id(-1, root.username, root.password, 0);
-   // console.log(result);
+    console.log(result);
   } catch (error) {
-   // console.log("Root user already exists");
+    console.log("Root user already exists");
   }
 };
 
