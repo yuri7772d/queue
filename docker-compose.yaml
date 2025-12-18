@@ -35,8 +35,8 @@ services:
       - q_net
 
   backend:
-  #  build: ./backend
-    image: registry-ui.vecskill.ovec/my-backend:latest  # ใช้สำหรับ production
+    #build: ./backend
+    image: registry.vecskill.ovec/my-backend:latest  # ใช้สำหรับ production
     ports:
       - "81:80" 
     environment:
@@ -60,8 +60,8 @@ services:
       - q_net
 
   frontend:
-   # build: ./frontend
-    image: registry-ui.vecskill.ovec/my-frontend:latest  # ใช้สำหรับ production 0
+    #build: ./frontend
+    image: registry.vecskill.ovec/my-frontend:latest  # ใช้สำหรับ production 0
     ports:
       - "3000:3000" 
     environment:
