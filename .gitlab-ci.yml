@@ -27,7 +27,7 @@ build_frontend:
   stage: build_frontend
   image: 192.168.100.180:5000/library/docker:26
   services:
-    - docker:26-dind   # ต้องการ docker-in-docker
+    - 192.168.100.180:5000/library/docker:26-dind   # ต้องการ docker-in-docker
   variables:
     DOCKER_TLS_CERTDIR: "" # ปิด TLS
   tags:
@@ -46,7 +46,7 @@ build_backend:
   stage: build_backend
   image: 192.168.100.180:5000/library/docker:26
   services:
-    - docker:26-dind   # ต้องการ docker-in-docker
+    - 192.168.100.180:5000/library/docker:26-dind   # ต้องการ docker-in-docker;
   variables:
     DOCKER_TLS_CERTDIR: "" # ปิด TLS
   tags:
