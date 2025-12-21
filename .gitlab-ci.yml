@@ -35,7 +35,6 @@ build_frontend:
   script:
     - docker info
     - cd frontend
-    - npm config set registry http://192.168.100.180:4873
     - docker build --no-cache -t my-frontend .
     - docker tag my-frontend registry.vecskill.ovec/my-frontend:latest
     - docker push registry.vecskill.ovec/my-frontend:latest
