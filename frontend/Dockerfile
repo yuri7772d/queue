@@ -1,12 +1,13 @@
 # =========================
 # 1) BUILD STAGE
 # =========================
-FROM node:22-alpine AS builder
+FROM 192.168.100.180:5000/library/node:22
 
 WORKDIR /app
 
 # ติดตั้ง dependency ก่อน (cache ดี)
 COPY package.json package-lock.json ./
+RUN npm config set registry http://192.168.100.180:4873
 RUN npm ci
 
 # copy source
@@ -19,7 +20,7 @@ RUN npm run build
 # =========================
 # 2) PRODUCTION STAGE
 # =========================
-FROM 192.168.100.180:5000/library/node:22 
+FROM 192.168.100.180:5000/library/node:22
 
 WORKDIR /app
 
