@@ -15,6 +15,7 @@ import authUsecase from "../usecase/auth.js";
 
 export default  async () => {
   await authUsecase.create_root();
+  
   app.use(express.json());
   app.use(cookieParser());
 

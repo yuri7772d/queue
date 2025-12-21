@@ -9,8 +9,9 @@ stages:
 # -----------------------------
 test_job:
   stage: test
-  image: node:22
+  image: 192.168.100.180:5000/node:22
   script:
+    - npm config set registry http://192.168.100.180:4873
     - cd backend
     - npm install
     - npm test
@@ -24,7 +25,7 @@ test_job:
 # -----------------------------
 build_frontend:
   stage: build_frontend
-  image: docker:26
+  image: 192.168.100.180:5000/docker:26
   services:
     - docker:26-dind   # ต้องการ docker-in-docker
   variables:
@@ -34,6 +35,7 @@ build_frontend:
   script:
     - docker info
     - cd frontend
+    - npm config set registry http://192.168.100.180:4873
     - docker build --no-cache -t my-frontend .
     - docker tag my-frontend registry.vecskill.ovec/my-frontend:latest
     - docker push registry.vecskill.ovec/my-frontend:latest
@@ -42,7 +44,7 @@ build_frontend:
 
 build_backend:
   stage: build_backend
-  image: docker:26
+  image: 192.168.100.180:5000/docker:26
   services:
     - docker:26-dind   # ต้องการ docker-in-docker
   variables:
