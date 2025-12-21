@@ -1,14 +1,14 @@
 # =========================
 # 1) BUILD STAGE
 # =========================
-FROM 192.168.100.180:5000/library/node:22
+FROM 192.168.100.180:5000/library/node:22 AS builder
 
 WORKDIR /app
 
-# ติดตั้ง dependency ก่อน (cache ดี)
+# cache dependency
 COPY package.json package-lock.json ./
-RUN npm config set registry http://192.168.100.180:4873
-RUN npm ci
+RUN npm config set registry http://192.168.100.180:4873 \
+ && npm ci
 
 # copy source
 COPY . .
@@ -28,12 +28,14 @@ ENV NODE_ENV=production
 ENV NITRO_PORT=3000
 ENV NITRO_HOST=0.0.0.0
 
-# copy output จาก build
+# copy output จาก build stage
 COPY --from=builder /app/.output ./.output
 COPY --from=builder /app/package.json ./package.json
-RUN npm config set registry http://192.168.100.180:4873
-# production ไม่ต้อง devDependencies
-RUN npm install --omit=dev --ignore-scripts
+COPY --from=builder /app/package-lock.json ./package-lock.json
+
+# install production deps only
+RUN npm config set registry http://192.168.100.180:4873 \
+ && npm install --omit=dev --ignore-scripts
 
 EXPOSE 3000
 
