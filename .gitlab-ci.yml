@@ -65,7 +65,7 @@ build_backend:
 # -----------------------------
 deploy_to_production:
   stage: deploy
-  image: alpine:latest
+  image: 192.168.100.180:5000/library/alpine:latest
   tags:
     - docker
   before_script:
