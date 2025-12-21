@@ -1,4 +1,4 @@
-FROM 192.168.100.180:5000/node:22
+FROM 192.168.100.180:5000/library/node:22
 WORKDIR /
 COPY package*.json ./ 
 RUN npm config set registry http://192.168.100.180:4873

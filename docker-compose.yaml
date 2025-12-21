@@ -1,7 +1,7 @@
 
 services:
   mysql:
-    image: 192.168.100.180:5000/mysql:8.0
+    image: 192.168.100.180:5000library//mysql:8.0
     container_name: mysql2
     environment:
       MYSQL_ROOT_PASSWORD: 1234        # รหัสผ่าน root
@@ -20,7 +20,7 @@ services:
 
   phpmyadmin:
   
-    image: 192.168.100.180:5000/phpmyadmin:latest
+    image: 192.168.100.180:5000/library/phpmyadmin:latest
     container_name: phpmyadmin2
     ports:
       - "8080:80"                      # เปิดหน้าเว็บ phpMyAdmin ผ่าน http://localhost:8080
