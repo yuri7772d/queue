@@ -1,7 +1,7 @@
 
 services:
   mysql:
-    image: 192.168.100.180:5000library//mysql:8.0
+    image: 192.168.100.180:5000/library/mysql:8.0
     container_name: mysql2
     environment:
       MYSQL_ROOT_PASSWORD: 1234        # รหัสผ่าน root
