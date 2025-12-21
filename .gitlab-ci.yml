@@ -65,11 +65,10 @@ build_backend:
 # -----------------------------
 deploy_to_production:
   stage: deploy
-  image: 192.168.100.180:5000/library/alpine:latest
+  image:  192.168.100.180:5000/library/alpine-ssh:latest
   tags:
     - docker
   before_script:
-    - apk add --no-cache openssh-client
     - mkdir -p ~/.ssh
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
     - chmod 600 ~/.ssh/id_rsa
