@@ -19,7 +19,7 @@ RUN npm run build
 # =========================
 # 2) PRODUCTION STAGE
 # =========================
-FROM 192.168.100.180:5000/library/node:22 AS runner
+FROM 192.168.100.180:5000/library/node:22 
 
 WORKDIR /app
 
