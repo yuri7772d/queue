@@ -13,7 +13,7 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql             # เก็บข้อมูลไว้ถาวรในโฟลเดอร์ host
       - ./backend/init_db:/docker-entrypoint-initdb.d   # ⭐ auto run SQL ที่นี่
-    command: []   # ไม่ต้องใส่อะไร ปล่อย default{}
+    command: []   # ไม่ต้องใส่อะไร ปล่อย default{}xg
     networks:
       - q_net
 
