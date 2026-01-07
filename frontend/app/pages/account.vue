@@ -12,7 +12,7 @@
         </button>
       </div>
     </div>
-
+ 
     <!-- 🔹 TABLE -->
     <table class="w-full border-collapse">
       <thead class="sticky top-0 bg-gray-100 z-10">
@@ -37,9 +37,6 @@
             <td class="p-3 text-right flex gap-2 justify-end">
               <button class="bg-yellow-500 text-white px-2 py-1 rounded" @click="openEdit(user)">
                 Edit
-              </button>
-              <button class="bg-red-500 text-white px-2 py-1 rounded" @click="onDelete(user.id)">
-                Delete
               </button>
             </td>
           </tr>
@@ -148,20 +145,6 @@ function onScroll() {
 onMounted(() => {
   load()
 })
-
-async function onDelete(id) {
-  await fetch(`${config.public.api}/auth`, {
-    method: 'DELETE',
-    body: { auth_id: id },
-    credentials: 'include',
-  })
-
-  // รีเซ็ตแล้วโหลดใหม่
-  users.value = []
-  page.value = 1
-  hasMore.value = true
-  await load()
-}
 
 async function onAdd() {
   await fetch(`${config.public.api}/auth`, {

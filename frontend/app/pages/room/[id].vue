@@ -216,7 +216,11 @@ const getDaysInMonth = (y, m) => new Date(y, m + 1, 0).getDate();
 
 async function fetchDate(year, month) {
   try {
-    const url = `${config.public.api}/queue/listing?year=${year}&month=${month + 1
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+console.log(tz);
+// เช่น "Asia/Bangkok"
+
+    const url = `${config.public.api}/queue/listing?tz=${tz}&year=${year}&month=${month + 1
       }&room_id=${roomID}`;
     return (await fetcher(url, { credentials: "include" }))?.result || [];
   } catch {
@@ -362,7 +366,6 @@ function onFileChange(e) {
       files.value.push(f);
     }
   }
-
   e.target.value = ""; // reset
 }
 
@@ -387,6 +390,7 @@ async function uploadFile(queue_id, f) {
 async function onBooking() {
   const url = `${config.public.api}/queue/booking`;
   try {
+    showSelectDay.value.setHours(0, 0, 0, 0);
     const result = await fetcher(url, {
       method: "POST",
       body: {
@@ -398,6 +402,7 @@ async function onBooking() {
 
       credentials: "include",
     });
+  
     if (files.value.length > 0) {
       for (const f of files.value) {
         await uploadFile(result.id, f);

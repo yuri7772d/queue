@@ -1,32 +1,34 @@
+
 export function useAuth() {
+  
   const router = useRouter();
-  const user = useState("auth", () => null);
+  const user = useState<User | null>("auth", () => null);
   const config = useRuntimeConfig();
   const fetch = useRequestFetch();
 
-  function setUser(id, name, role) {
-    user.value = { id, name, role };
+  function setUser(u: User) {
+    user.value = u;
   }
 
   async function getMe() {
     try {
-      const res = await fetch(`${config.public.api}/auth/me`, {
+      const res: User = await fetch(`${config.public.api}/auth/me`, {
         credentials: "include",
       });
-     // console.log(res)
+      // console.log(res)
       if (res && res.id) {
-        setUser(res.id, res.username, res.role);
+        setUser(res);
         router.push("/"); // redirect หลัง login
       }
     } catch (err) {
       console.log("getPayload error:", err);
-     // navigateTo("/login");
-     router.push("/login");
+      // navigateTo("/login");
+      router.push("/login");
     }
   }
 
   // login ผ่าน API
-  async function login(input) {
+  async function login(input: { username: string; password: string }) {
     try {
       console.log(config.public.api);
       // เรียก API login
@@ -41,14 +43,17 @@ export function useAuth() {
 
       // สมมติ API คืนค่า { id, name, role }
       if (res && res.id) {
-        setUser(res.id, res.username, res.role);
+        setUser(res);
         router.push("/"); // redirect หลัง login
       }
-    } catch (err) {
-      console.error(err?.data?.msg);
-      alert("Login failed: ",err?.data?.msg);
+    } catch (err: any) {
+      const errorMsg = err.data?.msg || err.message || "Something went wrong";
+      console.error("Login Error:", errorMsg);
+      alert("Login failed: " + errorMsg);
+
+
     }
-    
+
   }
 
   // logout
@@ -61,7 +66,7 @@ export function useAuth() {
       });
       user.value = null;
       router.push("/login");
-    } catch (err) {
+    } catch (err: any) {
       console.error(err?.data);
       alert("Logout failed");
     }
