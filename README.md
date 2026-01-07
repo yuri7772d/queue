@@ -1,50 +1,77 @@
-# stack
- - node.js express
- - unittest jest
- - docker compose , build to docker image
- - database mysql
- - gitlab ci/cd
- - structure Clean Architecture
- ---
-# install
- clone project
+# Queue — Room Queue Management System
 
-```bash
- git clone https://github.com/yuri7772d/roomQ.git
- 
- cd roomQ
+ออกแบบเพื่อเป็น **ตัวอย่างโปรเจกต์สำหรับการเรียนรู้การพัฒนา Web Application**
+ด้วยโครงสร้างแบบ **Clean Architecture** และสภาพแวดล้อมแบบ Production
 
-```
- create file .env
-```bash
-PORT=81
-JWT_SECRET=ddffaasdf
-JWT_REFRESH_SECRET=dfadsadasf
-ROOT_USERNAME=admin
-ROOT_PASSWORD=1234
-MYSQL_HOST=localhost
-MYSQL_PORT=3333
-MYSQL_DB=roomq
-MYSQL_USERNAME=sql
-MYSQL_PASSWORD=1234
-
-```
- install & run node.js
-
-```bash
- #install node
- npm install
-
- #run dev
- npm run dev
-
- #run test
- npm run test
-```
 ---
 
-docker-compose --profile backend up --build -d
+## Tech Stack
+- **Backend:** Node.js
+- **Frontend:** Nuxt.js
+- **Architecture:** Clean Architecture
+- **Container:** Docker
+- **CI/CD:** CI Pipeline
+- **Testing:** Unit Test
+- **Features:** Queue Management, File Upload
 
-npm create nuxt@latest <name>
-# install tailwind เเบบเพิ่ม config ไห้เลย
+---
+
+## Key Features
+- ระบบคิวใช้งานห้อง
+- แนบไฟล์ประกอบคิว
+- โครงสร้างแบบ Clean Architecture
+- มี Unit Test สำหรับ core logic
+- รองรับ CI/CD และ Docker สำหรับ production
+
+---
+
+## How to Run
+
+### Run on (Docker)
+```bash
+# phpmyadim + mysql
+docker compose up -d
+
+# phpmyadim + mysql + backend
+docker compose up -d --profile backend
+
+# phpmyadim + mysql + backend + frontend
+docker compose up -d --profile production
+```
+### Run test
+```bash
+
+cd backend
+
+npm run dev
+```
+---
+## How to create project
+หัวข้อนี้จัดทำขึ้นเพื่อให้ผู้ที่สนใจสามารถ
+**สร้างโปรเจกต์ลักษณะเดียวกันได้ด้วยตนเอง**
+### Backend Setup (Node.js + Express)
+```bash
+npm init -y
+
+npm install express
+npm install express-validator
+npm install cookie-parser
+npm install jsonwebtoken
+npm install mysql2
+npm install multer
+npm install dotenv
+
+# Development tools
+npm install -D nodemon
+
+```
+### Frontend Setup (Nuxt.js)
+```bash
+npm create nuxt@latest frontend
+cd frontend
+
+# Add Tailwind CSS with auto config
 npx nuxi module add tailwindcss
+
+```
+
